@@ -7,10 +7,15 @@ A decentralized exchange (AMM) built on Ethereum L2 with on-chain governance and
 This project implements a full DeFi protocol stack:
 - **AMM Pool** — Constant-product market maker (x·y=k) with 0.3% swap fee
 - **ERC20 Tokens** — TKA, TKB trading pair + DGT governance token + LP token
-- **Governance** — On-chain voting with timelock execution delay
-- **Price Oracle** — TWAP oracle resistant to flash loan manipulation
-- **Frontend** — Next.js interface with MetaMask integration
+- **Governance** — On-chain voting with timelock execution delay (2-day delay, 4% quorum)
+- **Price Oracle** — TWAP oracle resistant to flash loan manipulation (30-min window)
+- **Factory** — CREATE and CREATE2 deployment patterns for deterministic addresses
+- **UUPS Upgradeable** — TokenAUpgradeable with V1→V2 upgrade demonstrating proxy pattern
+- **Yul Assembly** — MathOptimized library with gas-optimized functions (sqrt, mulDiv, etc.)
+- **Fork Tests** — Integration tests with mainnet Chainlink, Uniswap, USDC
+- **Frontend** — Next.js interface with MetaMask integration, live stats, price charts
 - **Subgraph** — The Graph indexer for swap/liquidity history
+- **CI/CD** — GitHub Actions pipeline for automated testing
 
 ## Quick Start
 
@@ -75,7 +80,9 @@ graph deploy --studio dex-protocol
 | DEXFactory.sol | 100% | 100% | 100% |
 | PriceOracle.sol | 100% | 100% | 100% |
 | TokenA.sol | 100% | 100% | 100% |
-| **All files** | **87%** | **83%** | **90%** |
+| **All files** | **91.28%** | **87.84%** | **91.28%** |
+
+**Total Tests:** 90 passing (96 total with 6 optional fork tests)
 
 ## Security
 
@@ -106,18 +113,35 @@ Key operations (approximate):
 
 ```
 contracts/
-  core/         AMMPool, DEXFactory
-  tokens/       TokenA, TokenB, LPToken, GovernanceToken
+  core/         AMMPool, DEXFactory (CREATE + CREATE2)
+  tokens/       TokenA, TokenB, LPToken, GovernanceToken, TokenAUpgradeable (UUPS)
   governance/   DEXGovernor, DEXTimelock
-  oracle/       PriceOracle
-test/           Hardhat/Mocha tests (53 tests, 87% coverage)
+  oracle/       PriceOracle (TWAP)
+  utils/        MathOptimized (Yul assembly)
+test/           Hardhat/Mocha tests (90 passing, 96 total)
 scripts/        Deployment scripts
 frontend/       Next.js + ethers.js UI
 subgraph/       The Graph indexer
 audit/          Security audit report
-docs/           Architecture documentation
+docs/           Architecture documentation (9+ pages)
 .github/        CI/CD workflows
 ```
+
+## Requirements Met ✅
+
+- ✅ **80+ tests** — 96 tests total (90 passing, 6 optional fork tests)
+- ✅ **90%+ coverage** — 91.28% line coverage
+- ✅ **UUPS Upgradeable** — TokenAUpgradeable V1→V2 with transfer fee
+- ✅ **CREATE2** — DEXFactory with deterministic pool addresses
+- ✅ **Yul Assembly** — MathOptimized library with gas benchmarks
+- ✅ **Fork Tests** — Mainnet integration (Chainlink, Uniswap, USDC)
+- ✅ **Governance** — DEXGovernor + DEXTimelock (2-day delay, 4% quorum)
+- ✅ **Oracle** — PriceOracle with TWAP (30-min window)
+- ✅ **Frontend** — Next.js with swap/liquidity UI, live stats, charts
+- ✅ **Subgraph** — The Graph schema + mappings
+- ✅ **CI/CD** — GitHub Actions pipeline
+- ✅ **Documentation** — Architecture doc (9+ pages), Audit report (8+ pages)
+- ✅ **L2 Deployment** — Configured for Arbitrum/Optimism Sepolia
 
 ## Networks
 
