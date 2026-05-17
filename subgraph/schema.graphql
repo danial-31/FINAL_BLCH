@@ -1,0 +1,32 @@
+type Pool @entity {
+  id: ID!
+  reserveA: BigDecimal!
+  reserveB: BigDecimal!
+  totalSwaps: BigInt!
+  totalVolumeA: BigDecimal!
+  totalVolumeB: BigDecimal!
+  updatedAt: BigInt!
+}
+
+type Swap @entity {
+  id: ID!
+  user: Bytes!
+  tokenIn: Bytes!
+  amountIn: BigDecimal!
+  amountOut: BigDecimal!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  transactionHash: Bytes!
+}
+
+type LiquidityEvent @entity {
+  id: ID!
+  type: String!   # "ADD" or "REMOVE"
+  provider: Bytes!
+  amountA: BigDecimal!
+  amountB: BigDecimal!
+  lpAmount: BigDecimal!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  transactionHash: Bytes!
+}

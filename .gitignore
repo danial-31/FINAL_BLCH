@@ -1,0 +1,12 @@
+node_modules/
+.env
+cache/
+artifacts/
+coverage/
+coverage.json
+gas-report.txt
+deployments/*.json
+!deployments/.gitkeep
+frontend/.next/
+frontend/node_modules/
+typechain-types/
